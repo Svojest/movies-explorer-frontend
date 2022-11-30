@@ -1,0 +1,127 @@
+.authorization {
+	padding: 56px 0 30px;
+	display: flex;
+	flex-direction: column;
+    justify-content: space-between;
+}
+.authorization__header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.authorization__title {
+	margin: 50px 0 80px;
+	font-weight: var(--font-weight-500);
+	font-size: var(--font-size-24);
+	line-height: var(--line-height-29);
+}
+
+.authorization__form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    justify-content: space-between;
+
+}
+
+.authorization__fieldset {
+	display: flex;
+	flex-direction: column;
+	max-width: 320px;
+    width: 100%;
+	border: none;
+    gap: 10px;
+}
+
+.authorization__label {
+	display: flex;
+	flex-direction: column;
+    color: var(--text-color-opacity);
+    font-weight: var(--font-weight-400);
+    font-size: var(--font-size-10);
+    line-height: var(--line-height-12);
+}
+
+.authorization__field {
+    color: var(--text-color);
+    background-color: var(--box-color);
+    border: none;
+    outline: none;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-size: var(--font-size-13);
+    line-height: var(--line-height-16);
+}
+
+.authorization__error {
+    margin-top: 10px;
+    color: var(--red-color);
+    visibility: hidden;
+}
+
+.authorization__field:invalid + .authorization__error {
+    color: var(--red-color);
+    visibility: visible;
+}
+
+
+.authorization__actions {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    width: 100%;
+    margin-top: 157px;
+    gap: 14px;
+}
+
+.authorization__button {
+    outline: none;
+    border: none;
+    padding: 15px 0;
+    border-radius: 3px;
+    color: var(--text-color);
+    background-color: var(--blue-color);
+    font-size: var(--font-size-14);
+    line-height: var(--line-height-17);
+}
+
+.authorization__question {  
+    margin: 0;  
+    text-align: center;
+    font-size: var(--font-size-12);
+    line-height: var(--line-height-15);
+    color: var(--text-color-opacity);
+}
+.authorization__link {
+    text-decoration: none;
+    color: var(--blue-color);
+    margin-left: 7px;
+}
+.authorization__link:hover {
+    opacity: .8;
+    cursor: pointer;
+    transition: .3s;
+}
+
+@media screen and (min-width: 768px) {
+    .authorization__logo {
+        max-width: 396px;
+        width: 100%;
+    }
+    .authorization__title {
+        margin: 40px 0 40px;
+        max-width: 396px;
+        width: 100%;
+    }
+    .authorization__fieldset {
+        max-width: 396px;
+    }
+    .authorization__actions {
+        max-width: 396px;
+    }
+    .authorization__actions {
+        margin-top: 70px;
+    }
+}
