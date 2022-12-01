@@ -1,5 +1,5 @@
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
+import SearchForm from '../Movies/SearchForm/SearchForm'
 
 import React from 'react';
 

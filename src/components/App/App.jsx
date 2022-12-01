@@ -10,7 +10,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 import { Route, Switch } from 'react-router-dom';
 import Profile from '../Profile/Profile';
-import SavedMovies from '../MoviePage/Movies/SavedMovies/SavedMovies';
+import SavedMovies from '../MoviePage/SavedMovies/SavedMovies';
 
 const App = () => {
 	return (

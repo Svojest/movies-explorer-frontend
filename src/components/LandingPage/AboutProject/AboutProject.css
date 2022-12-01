@@ -1,4 +1,5 @@
 .project {
+	transition: .3s;
 }
 
 .project__container {
