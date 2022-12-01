@@ -14,7 +14,7 @@ const Header = ({ loggedIn }) => {
 	}
 
 	return (
-		<header className={'header header' + (route.pathname === '/' ? ' ' : '__main')}>
+		<header className={'header header' + (route.pathname === '/' ? ' ' : '-main')}>
 			<div className='header__container'>
 				<Link to='/'>
 					<img src={logo} alt='Logo' className='header__logo' />

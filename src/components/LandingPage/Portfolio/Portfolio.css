@@ -20,9 +20,9 @@
 	list-style: none;
 }
 .portfolio__link-item:hover {
-	opacity: .8;
+	opacity: 0.8;
 	cursor: pointer;
-	transition: .3s;
+	transition: 0.3s;
 }
 .portfolio__link-item:last-child {
 	margin: 0;
@@ -41,8 +41,8 @@
 }
 
 .portfolio__link:after {
-	content: '↗';
 	float: right;
+	content: url('../../../images/arrow.svg');
 }
 
 @media screen and (max-width: 768px) {

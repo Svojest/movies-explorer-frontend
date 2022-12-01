@@ -11,7 +11,7 @@ const Portfolio = () => {
 						<a
 							href='https://github.com/Svojest/how-to-learn'
 							className='portfolio__link'
-							target='__blank'
+							target='_blank' rel="noreferrer"
 						>
 							Статичный сайт
 						</a>
@@ -20,7 +20,7 @@ const Portfolio = () => {
 						<a
 							href='https://svojest.github.io/russian-travel/'
 							className='portfolio__link'
-							target='__blank'
+							target='_blank' rel="noreferrer"
 						>
 							Адаптивный сайт
 						</a>
@@ -29,7 +29,7 @@ const Portfolio = () => {
 						<a
 							href='https://svojest.github.io/mesto-react/'
 							className='portfolio__link'
-							target='__blank'
+							target='_blank' rel="noreferrer"
 						>
 							Одностраничное приложение
 						</a>
