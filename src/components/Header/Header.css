@@ -1,7 +1,6 @@
 .header {
 	padding: 18px 70px;
 	background-color: var(--promo-bg-color);
-	transition: .3s;
 }
 .header-main {
 	background-color: var(--main-bg-color);

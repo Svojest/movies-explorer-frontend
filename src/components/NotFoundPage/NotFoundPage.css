@@ -50,7 +50,7 @@
 		line-height: var(--line-height-19);
 	}
 	.not-found-page__back {
-		bottom: 222px;
+		bottom: 50px;
 		font-size: var(--font-size-14);
 		line-height: var(--line-height-17);
 	}

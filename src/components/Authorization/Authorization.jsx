@@ -3,7 +3,16 @@ import { NavLink, Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import './Authorization.css';
 
-const Authorization = ({ children, headerText, buttonText, navLink, text, navText }) => {
+const Authorization = ({
+	children,
+	headerText,
+	buttonText,
+	navLink,
+	text,
+	navText,
+	onSubmit,
+	isValid,
+}) => {
 	return (
 		<section className='authorization'>
 			<div className='authorization__header'>
@@ -12,10 +21,15 @@ const Authorization = ({ children, headerText, buttonText, navLink, text, navTex
 				</Link>
 				<h1 className='authorization__title'>{headerText}</h1>
 			</div>
-			<form className='authorization__form' action='/' method='POST'>
+			<form className='authorization__form' action='/' method='POST' onSubmit={onSubmit}>
 				{children}
 				<div className='authorization__actions'>
-					<button className='authorization__button' type='submit'>
+					<button
+						className={`authorization__button ${
+							!isValid && 'authorization__button_disabled'
+						}`}
+						type='submit'
+					>
 						{buttonText}
 					</button>
 					<p className='authorization__question'>

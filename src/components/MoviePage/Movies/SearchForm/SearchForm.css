@@ -53,6 +53,10 @@
 	transition: 0.3s;
 }
 
+search-form__submit_disabled {
+	opacity: 1;
+}
+
 .search-form__filter-checkbox {
 	margin-top: 45px;
 	margin-bottom: 40px;

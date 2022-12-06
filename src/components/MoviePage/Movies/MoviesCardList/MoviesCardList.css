@@ -35,7 +35,7 @@
 	.movies-card-list__container {
         padding: 70px 30px 30px;
         grid-template-columns: repeat(2, 339px);
-        gap: 30px;
+        gap: 36px;
 	}
     .movies-card-list__more {
         width: 320px;

@@ -3,13 +3,11 @@ import { Link, NavLink } from 'react-router-dom';
 import './Burger.css';
 import close from '../../../images/close.svg';
 
-
 const Burger = ({ isVisible, onClose }) => {
-    
 	return (
 		<div className={`burger ${isVisible && 'burger_visible'}`}>
 			<div className='burger__container'>
-				<img src={close} alt='close' className='burger__close' onClick={onClose}/>
+				<img src={close} alt='close' className='burger__close' onClick={onClose} />
 				<nav className='burger__nav'>
 					<ul className='burger__nav-list'>
 						<li className='header__nav-item'>
