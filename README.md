@@ -16,3 +16,5 @@
 <h4>Repository: <br></h4>
 
 https://github.com/Svojest/movies-explorer-frontend
+
+[Pull request](https://github.com/Svojest/movies-explorer-frontend/pull/2)
