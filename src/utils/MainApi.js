@@ -24,14 +24,14 @@ class MainApi {
             .catch((err) => console.log(err));
     }
     // Регистрация пользователя
-    register(email, password) {
+    register(email, name, password) {
         return fetch(`${this._baseUrl}/signup`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, name, password })
         })
             .then((res) => {
                 if (res.ok) {
