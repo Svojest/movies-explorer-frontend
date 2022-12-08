@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import { getCount } from '../../../../utils/constants';
 
 const MoviesCardList = ({ savedMovies, movies, onBookmarkClick, isSavedMovie }) => {
 	const [extraPortion, setExtraPortion] = useState(3);
 	const [currentCount, setCurrenCount] = useState(0);
 	const [renderMovies, setRenderMovies] = useState([]);
-
-	function getCount(windowSize) {
-		if (windowSize > 768) {
-			return { first: 16, extra: 4 };
-		} else if (windowSize > 480 && windowSize <= 768) {
-			return { first: 8, extra: 2 };
-		} else {
-			return { first: 5, extra: 2 };
-		}
-	}
 
 	function renderExtraPortion() {
 		const count = Math.min(movies.length, currentCount + extraPortion);
@@ -30,14 +21,14 @@ const MoviesCardList = ({ savedMovies, movies, onBookmarkClick, isSavedMovie }) 
 		setExtraPortion(sizePortion.extra);
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const windowSize = window.innerWidth;
 		const sizePortion = getCount(windowSize);
 		setExtraPortion(sizePortion.extra);

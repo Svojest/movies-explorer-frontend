@@ -16,7 +16,12 @@
 	padding: 19px;
 	border-radius: 9px;
 }
-
+.search-form__error {
+	padding-right: 15px;
+	color: var(--red-color);
+	font-size: var(--font-size-11);
+	line-height: var(--line-height-13);
+}
 .search-form__icon {
 	display: none;
 }
@@ -44,6 +49,18 @@
 	padding: 8px 11px;
 	border-radius: 48px;
 	color: var(--text-color);
+	background-color: var(--blue-color);
+}
+.search-form__submit_disable {
+	border: none;
+	outline: none;
+	font-weight: var(--font-weight-500);
+	font-size: var(--font-size-11);
+	line-height: var(--line-height-18);
+	padding: 8px 11px;
+	border-radius: 48px;
+	color: var(--text-color);
+	opacity: 0.5;
 	background-color: var(--blue-color);
 }
 

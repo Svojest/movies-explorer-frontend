@@ -12,8 +12,9 @@ const Movies = ({
 	loadingError,
 	onBookmarkClick,
 	isSavedMovie,
+	reset,
 }) => {
-	const [shortFilm, setShortFilm] = React.useState(false);
+	const [shortFilm, setShortFilm] = useState(false);
 
 	function onFilterShort(filterOn) {
 		setShortFilm(filterOn);

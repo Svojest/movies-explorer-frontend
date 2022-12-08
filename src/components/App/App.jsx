@@ -25,9 +25,11 @@ function App() {
 	const [loadingError, setLoadingError] = useState('');
 	const [initialMovies, setInitialMovies] = useState([]);
 	const [savedMovies, setSavedMovies] = useState([]);
+	const [cacheMovies, setCacheMovies] = useState([]);
 	const [filterMovies, setFilterMovies] = useState([]);
 	const [filterSavedMovies, setFilterSavedMovies] = useState([]);
 	const [query, setQuery] = useState('');
+	const [text, setText] = useState('');
 
 	const history = useHistory();
 	const location = useLocation();
@@ -49,18 +51,20 @@ function App() {
 				})
 				.catch((err) => {
 					console.log(err);
+					setLoggedIn(true);
 					localStorage.removeItem('token');
 					history.push('/');
 				});
 		}
 	}, [history]);
+	
 
 	function handleRegister(email, name, password) {
 		mainApi
 			.register(email, name, password)
 			.then((res) => {
 				if (res) {
-					history.push('/signin');
+					handleLogin(email, password);
 				}
 			})
 			.catch((err) => console.log(err));
@@ -73,6 +77,7 @@ function App() {
 				if (res.token) {
 					localStorage.setItem('token', res.token);
 					setLoggedIn(true);
+					getUserInfo();
 					history.push('/movies');
 				}
 			})
@@ -83,7 +88,15 @@ function App() {
 		localStorage.removeItem('token');
 		localStorage.removeItem('initialMovies');
 		localStorage.removeItem('savedMovies');
+		localStorage.removeItem('cacheMovies');
+		localStorage.removeItem('savedMovies');
+		localStorage.removeItem('searchQuery');
+		localStorage.removeItem('searchShorts');
 		setInitialMovies([]);
+		setSavedMovies([]);
+		setCacheMovies([]);
+		setFilterMovies([]);
+		setFilterSavedMovies([]);
 		history.push('/');
 	}
 	function handleUpdateUser(userInfo) {
@@ -91,6 +104,7 @@ function App() {
 			.setUserInfo(userInfo)
 			.then((res) => {
 				setCurrentUser(res);
+				setText('Изменено!');
 			})
 			.catch((err) => {
 				console.log(err);
@@ -119,6 +133,7 @@ function App() {
 					};
 				});
 				localStorage.setItem('initialMovies', JSON.stringify(initialArray));
+
 				setInitialMovies(initialArray);
 			})
 			.catch((err) => {
@@ -135,12 +150,23 @@ function App() {
 					return { ...item, id: item.movieId };
 				});
 				localStorage.setItem('savedMovies', JSON.stringify(savedArray));
+
 				setSavedMovies(savedArray);
 			})
 			.catch((err) => {
 				localStorage.removeItem('savedMovies');
 				console.log(err);
 			});
+	}
+
+	function getCacheMovies() {
+		mainApi.getMovies().then((data) => {
+			const cacheArray = data.map((item) => {
+				return { ...item, id: item.movieId };
+			});
+			localStorage.setItem('cacheMovies', JSON.stringify(cacheArray));
+			setCacheMovies(cacheArray);
+		});
 	}
 
 	useEffect(() => {
@@ -150,7 +176,12 @@ function App() {
 		} else {
 			getInitialMovies();
 		}
-
+		const cache = JSON.parse(localStorage.getItem('cacheMovies'));
+		if (cache) {
+			setCacheMovies(cache);
+		} else {
+			getCacheMovies();
+		}
 		const saved = JSON.parse(localStorage.getItem('savedMovies'));
 		if (saved) {
 			setSavedMovies(saved);
@@ -160,6 +191,7 @@ function App() {
 	}, []);
 
 	function isSavedMovie(movie) {
+		// debugger
 		return savedMovies.some((item) => item.id === movie.id);
 	}
 
@@ -168,8 +200,14 @@ function App() {
 			const strRu = String(item.nameRU).toLowerCase();
 			const strEn = String(item.nameEN).toLowerCase();
 			const searchStr = searchQuery.toLowerCase().trim();
+
 			return strRu.indexOf(searchStr) !== -1 || strEn.indexOf(searchStr) !== -1;
 		});
+		if (moviesByQuery.length === 0) {
+			setLoadingError('Ничего не найдено');
+		} else {
+			setLoadingError('');
+		}
 		return moviesByQuery;
 	}
 
@@ -178,6 +216,7 @@ function App() {
 		setTimeout(() => {
 			setQuery(query);
 			setFilterMovies(filter(initialMovies, query));
+			localStorage.setItem('cacheMovies', JSON.stringify(filter(initialMovies, query)));
 			setIsLoading(false);
 		}, 500);
 	}
@@ -218,14 +257,12 @@ function App() {
 		mainApi
 			.addMovie(movie)
 			.then((res) => {
-				debugger
 				setSavedMovies([...savedMovies, { ...res, id: res.movieId }]);
 			})
 			.catch((err) => {});
 	}
 
 	useEffect(() => {
-		setFilterSavedMovies(filter(savedMovies, query));
 		localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
 	}, [query, savedMovies]);
 
@@ -244,7 +281,7 @@ function App() {
 						loadingError={loadingError}
 						component={Movies}
 						savedMovies={false}
-						movies={filterMovies}
+						movies={cacheMovies.length === 0 ? filterMovies : cacheMovies}
 						onSubmitSearch={onSubmitSearch}
 						onBookmarkClick={onBookmarkClick}
 						isSavedMovie={isSavedMovie}
@@ -256,7 +293,7 @@ function App() {
 						loadingError={loadingError}
 						component={Movies}
 						savedMovies={true}
-						movies={filterSavedMovies}
+						movies={savedMovies}
 						onSubmitSearch={onSubmitSearchSaved}
 						onBookmarkClick={onBookmarkClick}
 						isSavedMovie={isSavedMovie}
@@ -267,6 +304,7 @@ function App() {
 						loggedIn={loggedIn}
 						handleUpdateUser={handleUpdateUser}
 						handleSignOut={handleSignOut}
+						textUpdated={text}
 					/>
 					<Route path='/signup'>
 						{loggedIn === true ? (
@@ -286,6 +324,7 @@ function App() {
 						<NotFoundPage />
 					</Route>
 				</Switch>
+
 				{(location.pathname === '/' ||
 					location.pathname === '/movies' ||
 					location.pathname === '/saved-movies') && <Footer />}

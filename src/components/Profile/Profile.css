@@ -110,7 +110,10 @@
 .profile__edit_disabled {
 	color: var(--text-color-opacity);
 }
-
+.profile__edit_disabled:hover {
+	cursor: auto;
+	opacity: 1;
+}
 .profile__logout {
 	color: var(--red-color);
 }
@@ -122,7 +125,6 @@
 	.profile__fieldset {
 		width: 410px;
 	}
-
 }
 @media screen and (min-width: 1280px) {
 	.profile {

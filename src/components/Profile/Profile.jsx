@@ -3,7 +3,7 @@ import './Profile.css';
 import { CurrentUserContext } from '../../context/currentUserContext';
 import { useForm } from 'react-hook-form';
 
-const Profile = ({ handleUpdateUser, handleSignOut }) => {
+const Profile = ({ handleUpdateUser, handleSignOut, textUpdated }) => {
 	const currentUser = useContext(CurrentUserContext);
 	const {
 		register,
@@ -26,6 +26,7 @@ const Profile = ({ handleUpdateUser, handleSignOut }) => {
 		setValue('name', currentUser.name);
 		setValue('email', currentUser.email);
 	}, [currentUser]);
+
 	return (
 		<section className='profile'>
 			<div className='profile__container'>
@@ -54,6 +55,7 @@ const Profile = ({ handleUpdateUser, handleSignOut }) => {
 						<span className='profile__error'>
 							{errors?.name && errors?.name?.message}
 						</span>
+						<span className='profile__update'>{textUpdated}</span>
 						<label className='profile__label'>
 							E-email
 							<input
@@ -82,6 +84,7 @@ const Profile = ({ handleUpdateUser, handleSignOut }) => {
 								!isValid && 'profile__edit_disabled'
 							}`}
 							type='submit'
+							disabled={!isValid}
 						>
 							Редактировать
 						</button>
