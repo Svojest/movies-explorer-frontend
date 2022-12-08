@@ -6,7 +6,7 @@ import './SearchForm.css';
 const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
 	const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchQuery') || '');
 	const [searchShorts, setSearchShorts] = useState(
-		JSON.parse(localStorage.getItem('searchShorts') || false)
+		JSON.parse(localStorage.getItem('searchShorts') || 'false')
 	);
 	const location = useLocation();
 
@@ -23,7 +23,7 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
 	function handleFilterChange(e) {
 		onFilterShort(e.target.checked);
 		setSearchShorts(e.target.checked);
-		JSON.stringify(localStorage.setItem('searchShorts', !searchShorts));
+		JSON.parse(JSON.stringify(localStorage.setItem('searchShorts', !searchShorts)));
 	}
 
 	function handleOnChange(e) {

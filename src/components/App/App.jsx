@@ -34,6 +34,9 @@ function App() {
 	const history = useHistory();
 	const location = useLocation();
 
+	console.dir(filterMovies);
+	console.dir(cacheMovies);
+
 	useEffect(() => {
 		window.localStorage.setItem('loggedIn', loggedIn);
 	}, [loggedIn]);
@@ -57,7 +60,20 @@ function App() {
 				});
 		}
 	}, [history]);
-	
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		const saved = JSON.parse(localStorage.getItem('savedMovies'));
+		console.log(saved);
+		if (saved) {
+			setSavedMovies(saved);
+		} else {
+			getSavedMovies();
+		}
+		if (!token) {
+			handleSignOut();
+		}
+	}, []);
 
 	function handleRegister(email, name, password) {
 		mainApi
@@ -87,16 +103,14 @@ function App() {
 		setLoggedIn(false);
 		localStorage.removeItem('token');
 		localStorage.removeItem('initialMovies');
-		localStorage.removeItem('savedMovies');
 		localStorage.removeItem('cacheMovies');
-		localStorage.removeItem('savedMovies');
 		localStorage.removeItem('searchQuery');
 		localStorage.removeItem('searchShorts');
-		setInitialMovies([]);
-		setSavedMovies([]);
+		// setInitialMovies([]);
+		// setSavedMovies([]);
 		setCacheMovies([]);
-		setFilterMovies([]);
-		setFilterSavedMovies([]);
+		// setFilterMovies([]);
+		// setFilterSavedMovies([]);
 		history.push('/');
 	}
 	function handleUpdateUser(userInfo) {
@@ -132,9 +146,8 @@ function App() {
 						trailer: item.trailerLink,
 					};
 				});
-				localStorage.setItem('initialMovies', JSON.stringify(initialArray));
-
 				setInitialMovies(initialArray);
+				localStorage.setItem('initialMovies', JSON.stringify(initialArray));
 			})
 			.catch((err) => {
 				localStorage.removeItem('initialMovies');
@@ -149,9 +162,8 @@ function App() {
 				const savedArray = data.map((item) => {
 					return { ...item, id: item.movieId };
 				});
-				localStorage.setItem('savedMovies', JSON.stringify(savedArray));
-
 				setSavedMovies(savedArray);
+				localStorage.setItem('savedMovies', JSON.stringify(savedArray));
 			})
 			.catch((err) => {
 				localStorage.removeItem('savedMovies');
@@ -159,36 +171,21 @@ function App() {
 			});
 	}
 
-	function getCacheMovies() {
-		mainApi.getMovies().then((data) => {
-			const cacheArray = data.map((item) => {
-				return { ...item, id: item.movieId };
-			});
-			localStorage.setItem('cacheMovies', JSON.stringify(cacheArray));
-			setCacheMovies(cacheArray);
-		});
-	}
-
 	useEffect(() => {
-		const initial = JSON.parse(localStorage.getItem('initialMovies'));
-		if (initial) {
-			setInitialMovies(initial);
+		if (loggedIn) {
+			const initial = JSON.parse(localStorage.getItem('initialMovies'));
+			if (initial) {
+				setInitialMovies(initial);
+			} else {
+				getInitialMovies();
+			}
+			const cache = JSON.parse(localStorage.getItem('cacheMovies'));
+			if (cache) {
+				setCacheMovies(cache);
+			}
 		} else {
-			getInitialMovies();
 		}
-		const cache = JSON.parse(localStorage.getItem('cacheMovies'));
-		if (cache) {
-			setCacheMovies(cache);
-		} else {
-			getCacheMovies();
-		}
-		const saved = JSON.parse(localStorage.getItem('savedMovies'));
-		if (saved) {
-			setSavedMovies(saved);
-		} else {
-			getSavedMovies();
-		}
-	}, []);
+	}, [loggedIn]);
 
 	function isSavedMovie(movie) {
 		// debugger
@@ -265,6 +262,9 @@ function App() {
 	useEffect(() => {
 		localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
 	}, [query, savedMovies]);
+	// useEffect(() => {
+	// 	localStorage.setItem('cacheMovies', JSON.stringify(cacheMovies));
+	// }, [cacheMovies, query, savedMovies]);
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
@@ -282,6 +282,7 @@ function App() {
 						component={Movies}
 						savedMovies={false}
 						movies={cacheMovies.length === 0 ? filterMovies : cacheMovies}
+						// movies={filterMovies}
 						onSubmitSearch={onSubmitSearch}
 						onBookmarkClick={onBookmarkClick}
 						isSavedMovie={isSavedMovie}

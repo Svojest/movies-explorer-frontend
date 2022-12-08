@@ -12,7 +12,6 @@ const Movies = ({
 	loadingError,
 	onBookmarkClick,
 	isSavedMovie,
-	reset,
 }) => {
 	const [shortFilm, setShortFilm] = useState(false);
 
