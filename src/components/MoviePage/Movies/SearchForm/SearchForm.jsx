@@ -3,11 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import './SearchForm.css';
 
-const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
-	const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchQuery') || '');
-	const [searchShorts, setSearchShorts] = useState(
-		JSON.parse(localStorage.getItem('searchShorts') || 'false')
-	);
+const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort, savedMovies }) => {
+	const [searchQuery, setSearchQuery] = useState('');
+	const [searchShorts, setSearchShorts] = useState(false);
 	const location = useLocation();
 
 	useEffect(() => {
@@ -15,15 +13,14 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
 			setSearchQuery('');
 		}
 		if (location.pathname !== '/saved-movies') {
+			setSearchQuery('');
 			setSearchQuery(localStorage.getItem('searchQuery'));
-			setSearchShorts(JSON.parse(localStorage.getItem('searchShorts')));
 		}
 	}, [location.pathname]);
 
 	function handleFilterChange(e) {
 		onFilterShort(e.target.checked);
 		setSearchShorts(e.target.checked);
-		JSON.parse(JSON.stringify(localStorage.setItem('searchShorts', !searchShorts)));
 	}
 
 	function handleOnChange(e) {
@@ -33,7 +30,10 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
 	function handleOnSubmit(e) {
 		e.preventDefault();
 		onSubmitSearch(searchQuery);
-		localStorage.setItem('searchQuery', searchQuery);
+		if (!savedMovies) {
+			localStorage.setItem('searchQuery', searchQuery);
+			localStorage.setItem('searchShorts', e.target.checked);
+		}
 	}
 
 	return (
@@ -47,7 +47,7 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
 						id='searchMovie'
 						className='search-form__input'
 						placeholder='Фильм'
-						value={searchQuery}
+						value={searchQuery || ''}
 						onChange={handleOnChange}
 						disabled={isLoading}
 					/>
@@ -66,6 +66,7 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort }) => {
 				<label className='search-form__filter-checkbox'>
 					<input
 						className='search-form__filter-checkbox-hidden'
+						name='searchShorts'
 						type='checkbox'
 						checked={searchShorts}
 						onChange={handleFilterChange}

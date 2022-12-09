@@ -30,6 +30,7 @@ const Movies = ({
 				onSubmitSearch={onSubmitSearch}
 				onFilterShort={onFilterShort}
 				isLoading={isLoading}
+				savedMovies={savedMovies}
 			/>
 			{isLoading && <Preloader />}
 			{!isLoading && loadingError === '' && (

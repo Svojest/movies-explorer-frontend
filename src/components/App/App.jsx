@@ -34,8 +34,8 @@ function App() {
 	const history = useHistory();
 	const location = useLocation();
 
-	console.dir(filterMovies);
-	console.dir(cacheMovies);
+	// console.dir(filterMovies);
+	// console.dir(cacheMovies);
 
 	useEffect(() => {
 		window.localStorage.setItem('loggedIn', loggedIn);
@@ -106,11 +106,11 @@ function App() {
 		localStorage.removeItem('cacheMovies');
 		localStorage.removeItem('searchQuery');
 		localStorage.removeItem('searchShorts');
-		// setInitialMovies([]);
-		// setSavedMovies([]);
+		localStorage.removeItem('savedMovies');
+
+		setSavedMovies([]);
 		setCacheMovies([]);
-		// setFilterMovies([]);
-		// setFilterSavedMovies([]);
+
 		history.push('/');
 	}
 	function handleUpdateUser(userInfo) {
