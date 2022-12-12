@@ -1,38 +1,39 @@
-import React, { useState } from 'react';
-import SearchForm from './SearchForm/SearchForm';
+import React from 'react';
+import SearchForm from '../Movies/SearchForm/SearchForm';
 import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
-import './Movies.css';
+import { useEffect } from 'react';
 
 const Movies = ({
-	handleSearch,
-	searchQuery,
-	searchShorts,
-	isSearchCompleted,
-	savedCards,
+	cards,
 	onCardButton,
+	searchQuery,
+	handleSearch,
+	isSearchCompleted,
 	isSearchRunning,
 	isError,
-	cards,
-	isSavedCards,
+	onReset,
 }) => {
+	// Сброс поиска
+	useEffect(() => {
+		onReset();
+	}, []);
+
 	return (
 		<section className='movies'>
 			<SearchForm
 				searchQuery={searchQuery}
-				searchShorts={searchShorts}
+				searchShorts={false}
 				handleSearch={handleSearch}
-				isClearedOnMount={false}
+				isResetSaved={true}
 				isSearchRunning={isSearchRunning}
 				isSearchCompleted={isSearchCompleted}
 			/>
 			<MoviesCardList
 				cards={cards}
-				savedCards={savedCards}
-				showSavedCards={false}
-				isSavedCards={isSavedCards}
 				onCardButton={onCardButton}
+				showSavedCards={true}
 				isError={isError}
-				isSearchRunning={isSearchRunning}
+				isSearchRunning={false}
 				isSearchCompleted={isSearchCompleted}
 			/>
 		</section>

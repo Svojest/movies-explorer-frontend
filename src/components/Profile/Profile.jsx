@@ -1,100 +1,115 @@
 import React, { useContext, useEffect } from 'react';
 import './Profile.css';
 import { CurrentUserContext } from '../../context/currentUserContext';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import useFormAndValidation from '../../hook/useFormAndValidation';
 
-const Profile = ({ handleUpdateUser, handleSignOut, textUpdated }) => {
+const Profile = ({ handleUpdateUser, handleSignOut }) => {
+	const { values, isErrors, isValid, handleChange, setValues, setIsValid } =
+		useFormAndValidation();
+
+	const [isActive, setIsActive] = useState(false);
 	const currentUser = useContext(CurrentUserContext);
-	const {
-		register,
-		formState: { errors, isValid },
-		setValue,
-		handleSubmit,
-	} = useForm({
-		mode: 'onChange',
-		defaultValues: {
-			name: currentUser.name,
-			email: currentUser.email,
-		},
-	});
 
-	const onSubmit = (newUserInfo) => {
-		handleUpdateUser(newUserInfo);
+	const onSubmit = (e) => {
+		e.preventDefault();
+		handleUpdateUser(values.name, values.email);
+		setIsActive(false);
 	};
 
+	// Если текужщие значения одинаковы с конектном, диактивировать кнопку submit
 	useEffect(() => {
-		setValue('name', currentUser.name);
-		setValue('email', currentUser.email);
-	}, [currentUser]);
+		if (currentUser.name === values.name && currentUser.email === values.email) {
+			setIsValid(false);
+		}
+	}, [setIsValid, values, currentUser]);
+
+	// Активировать поля для редактирования
+	function handleEdit() {
+		setIsActive(true);
+	}
+	// Загрузка значений из контекста
+	useEffect(() => {
+		if (currentUser) {
+			setValues({
+				name: currentUser.name,
+				email: currentUser.email,
+			});
+		}
+	}, [setValues, currentUser]);
 
 	return (
 		<section className='profile'>
 			<div className='profile__container'>
-				<form
-					action='/'
-					className='profile__form'
-					method='POST'
-					onSubmit={handleSubmit(onSubmit)}
-				>
+				<form action='/' className='profile__form' method='POST' onSubmit={onSubmit}>
 					<h1 className='profile__title'>{`Привет, ${currentUser.name}!`}</h1>
 					<fieldset className='profile__fieldset'>
 						<label className='profile__label'>
 							Имя
 							<input
 								type='text'
+								value={values.name || ''}
+								onChange={handleChange}
 								name='name'
-								id='name-field'
 								className={`profile__input ${
-									errors?.name && 'profile__input_error'
+									isActive ? 'profile__text_active' : 'profile__text'
 								}`}
-								{...register('name', {
-									required: 'Поле обязательно к заполнению',
-								})}
+								id='name-field'
+								minLength='2'
+								required
+								disabled={!isActive}
 							/>
 						</label>
 						<span className='profile__error'>
-							{errors?.name && errors?.name?.message}
+							{isErrors.name ? 'Это обязательное поле' : ''}
 						</span>
-						<span className='profile__update'>{textUpdated}</span>
 						<label className='profile__label'>
 							E-email
 							<input
-								type='text'
+								type='email'
+								value={values.email || ''}
+								onChange={handleChange}
 								name='email'
 								id='email-field'
 								className={`profile__input ${
-									errors?.email && 'profile__input_error'
+									isActive ? 'profile__text_active' : 'profile__text'
 								}`}
-								{...register('email', {
-									required: 'Это обязательное поле',
-									pattern: {
-										value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/g,
-										message: 'Некорректный email-адрес',
-									},
-								})}
+								required
+								disabled={!isActive}
 							/>
 						</label>
-						<span className='profile__error'>
-							{errors?.email && errors?.email?.message}
-						</span>
+						<span className='profile__error'>{isErrors.email || ''}</span>
 					</fieldset>
 					<div className='profile__actions'>
-						<button
-							className={`profile__actions-text profile__edit ${
-								!isValid && 'profile__edit_disabled'
-							}`}
-							type='submit'
-							disabled={!isValid}
-						>
-							Редактировать
-						</button>
-						<button
-							className='profile__actions-text profile__logout'
-							type='button'
-							onClick={handleSignOut}
-						>
-							Выйти из аккаунта
-						</button>
+						{isActive ? (
+							<button
+								className={`profile__actions-text ${
+									!isValid ? 'profile__edit_disabled' : 'profile__edit'
+								}`}
+								type='submit'
+								disabled={!isValid}
+							>
+								Сохранить
+							</button>
+						) : (
+							<>
+								<button
+									className={`profile__actions-text profile__edit'
+								}`}
+									type='button'
+									onClick={handleEdit}
+								>
+									Редактировать
+								</button>
+								<button
+									className='profile__actions-text profile__logout'
+									type='button'
+									onClick={handleSignOut}
+								>
+									Выйти из аккаунта
+								</button>
+							</>
+						)}
 					</div>
 				</form>
 			</div>

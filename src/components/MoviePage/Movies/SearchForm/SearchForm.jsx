@@ -3,42 +3,46 @@ import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import './SearchForm.css';
 
-const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort, savedMovies }) => {
-	const [searchQuery, setSearchQuery] = useState('');
-	const [searchShorts, setSearchShorts] = useState(false);
-	const location = useLocation();
+const SearchForm = ({
+	searchQuery,
+	searchShorts,
+	handleSearch,
+	isResetSaved,
+	isSearchRunning,
+	isSearchCompleted,
+}) => {
+	const [currentSearchQuery, setCurrentSearchQuery] = useState(searchQuery || '');
+	// Проверка валидации у input
+	const [isValid, setIsValid] = useState(false);
 
 	useEffect(() => {
-		if (location.pathname === '/saved-movies') {
-			setSearchQuery('');
+		if (isResetSaved) {
+			setCurrentSearchQuery('');
 		}
-		if (location.pathname !== '/saved-movies') {
-			setSearchQuery('');
-			setSearchQuery(localStorage.getItem('searchQuery'));
-		}
-	}, [location.pathname]);
+	}, []);
 
-	function handleFilterChange(e) {
-		onFilterShort(e.target.checked);
-		setSearchShorts(e.target.checked);
-	}
-
-	function handleOnChange(e) {
-		setSearchQuery(e.target.value);
-	}
-
-	function handleOnSubmit(e) {
+	// Обработчик нажатия submit
+	function handleSubmit(e) {
 		e.preventDefault();
-		onSubmitSearch(searchQuery);
-		if (!savedMovies) {
-			localStorage.setItem('searchQuery', searchQuery);
-			localStorage.setItem('searchShorts', e.target.checked);
+		if (currentSearchQuery.length) {
+			handleSearch(currentSearchQuery, searchShorts);
+		} else {
+			setIsValid(true);
+		}
+	}
+
+	// Обработчик checkbox
+	function handleShortsChange(value) {
+		if (isSearchCompleted) {
+			if (currentSearchQuery.length) {
+				handleSearch(currentSearchQuery, value);
+			}
 		}
 	}
 
 	return (
 		<section className='search-form'>
-			<form name='search-form' className='search-form__container' onSubmit={handleOnSubmit}>
+			<form name='search-form' className='search-form__container' onSubmit={handleSubmit}>
 				<div className='search-form__bar'>
 					<i className='search-form__icon'></i>
 					<input
@@ -47,17 +51,16 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort, savedMovies }) =
 						id='searchMovie'
 						className='search-form__input'
 						placeholder='Фильм'
-						value={searchQuery || ''}
-						onChange={handleOnChange}
-						disabled={isLoading}
+						value={currentSearchQuery}
+						onChange={(e) => setCurrentSearchQuery(e.target.value)}
 					/>
-					{searchQuery === '' && (
+					{isValid && (
 						<span className='search-form__error'>Нужно ввести ключевое слово</span>
 					)}
 					<button
 						type='submit'
 						className={
-							isLoading ? 'search-form__submit_disable' : 'search-form__submit'
+							isSearchRunning ? 'search-form__submit_disable' : 'search-form__submit'
 						}
 					>
 						Найти
@@ -68,8 +71,8 @@ const SearchForm = ({ onSubmitSearch, isLoading, onFilterShort, savedMovies }) =
 						className='search-form__filter-checkbox-hidden'
 						name='searchShorts'
 						type='checkbox'
-						checked={searchShorts}
-						onChange={handleFilterChange}
+						defaultChecked={searchShorts}
+						onChange={(e) => handleShortsChange(e.target.checked)}
 					></input>
 					<span className='search-form__filter-checkbox-slider'></span>
 					<span className='search-form__filter-checkbox-text'>Короткометражки</span>

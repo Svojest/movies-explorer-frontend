@@ -12,8 +12,10 @@ class MainApi {
         };
         optionsWithHeaders = Object.assign(options, optionsWithHeaders);
 
+      
         return fetch(`${this._baseUrl}/${path}`, optionsWithHeaders)
             .then(res => {
+                
                 if (res.ok) {
                     return res.json();
                 } else {
@@ -93,7 +95,7 @@ class MainApi {
     getUserInfo() {
         return this._sendRequest('users/me');
     }
-    setUserInfo({ email, name }) {
+    setUserInfo({ name, email }) {
         return this._sendRequest('users/me', {
             method: 'PATCH',
             body: JSON.stringify({
@@ -105,22 +107,11 @@ class MainApi {
     getMovies() {
         return this._sendRequest('movies');
     }
-    addMovie(data) {
+    addMovie(movie) {
+        
         return this._sendRequest('movies', {
             method: 'POST',
-            body: JSON.stringify({
-                country: data.country,
-                director: data.director,
-                duration: data.duration,
-                year: data.year,
-                description: data.description,
-                image: data.image,
-                trailerLink: data.trailerLink,
-                thumbnail: data.image,
-                movieId: data.id,
-                nameRU: data.nameRU,
-                nameEN: data.nameEN,
-            })
+            body: JSON.stringify(movie)
         });
     }
     deleteMovie(id) {
@@ -133,4 +124,5 @@ class MainApi {
 
 export const mainApi = new MainApi({
     baseUrl: 'https://api.movies.svojest.nomoredomains.icu'
+    // baseUrl: 'http://localhost:4000'
 })

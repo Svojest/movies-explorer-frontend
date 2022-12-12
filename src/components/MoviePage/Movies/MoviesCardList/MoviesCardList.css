@@ -9,6 +9,12 @@
 	grid-template-columns: 300px;
 	gap: 16px;
 }
+.movies-card__message {
+	text-align: center;
+	font-weight: var(--font-weight-500);
+	font-size: var(--font-size-14);
+	line-height: var(--line-height-15);
+}
 
 .movies-card-list__more {
 	display: block;

@@ -5,6 +5,7 @@
 	justify-content: center;
 }
 
+
 .profile__container {
 	display: flex;
 	flex-direction: column;
@@ -61,6 +62,11 @@
 	font-weight: var(--font-weight-400);
 	font-size: var(--font-size-11);
 	line-height: var(--line-height-13);
+}
+.profile__text {
+}
+.profile__text_active {
+	color: var(--text-color-opacity);
 }
 
 .profile__input_error {
