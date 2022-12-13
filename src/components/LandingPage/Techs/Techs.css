@@ -1,0 +1,103 @@
+.techs {
+	background-color: var(--second-bg-color);
+}
+
+.techs__container {
+	padding: 100px 70px;
+}
+
+.techs__heading {
+}
+
+.techs__title {
+	text-align: center;
+	margin: 0 0 24px 0;
+	font-weight: var(--font-weight-400);
+	font-size: var(--font-size-50);
+	line-height: var(--line-height-58);
+	letter-spacing: var(--letter-spacing-default);
+}
+
+.techs__subtitle {
+	text-align: center;
+    margin: 0 auto;
+    width: 460px;
+	font-weight: var(--font-weight-400);
+	font-size: var(--font-size-14);
+	line-height: var(--line-height-20);
+	letter-spacing: var(--letter-spacing-default);
+}
+
+.techs__container-boxs {
+	list-style: none;
+	margin: 100px 0 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+    flex-wrap: wrap;
+	gap: 10px;
+}
+.techs__box {
+	background-color: var(--box-color);
+	width: 90px;
+	height: 60px;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+.techs__box-text {
+	text-align: center;
+	margin: 0;
+	padding: 21px 0;
+	font-weight: var(--font-weight-400);
+	font-size: var(--font-size-14);
+	line-height: var(--line-height-17);
+	letter-spacing: var(--letter-spacing-default);
+}
+
+@media screen and (max-width: 768px) {
+	.techs__container {
+		padding: 90px 50px;
+	}
+	.techs__subtitle {
+        margin: 0;
+        width: 100%;
+		font-size: var(--font-size-12);
+		line-height: var(--line-height-18);
+	}
+    .techs__container-boxs {
+        margin: 83px 0 0;
+    }
+    .techs__box {
+        width: 84px;
+    }
+    .techs__box-text {
+        font-size: var(--font-size-12);
+        line-height: var(--line-height-15);
+    }
+}
+@media screen and (max-width: 420px) {
+    .techs {
+        background-color: var(--main-bg-color);
+    }
+    .techs__container {
+        padding: 70px 18px;
+    }
+
+    .techs__title {
+        font-size: var(--font-size-30);
+        line-height: var(--line-height-36);
+    }
+    .techs__subtitle {
+        width: 100%;
+		font-size: var(--font-size-12);
+		line-height: var(--line-height-18);
+	}
+
+    .techs__container-boxs {
+        margin: 50px 0 0;
+        display: grid;
+        grid-template-columns: 84px 84px;
+    }
+}

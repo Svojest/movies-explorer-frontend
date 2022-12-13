@@ -1,0 +1,115 @@
+.about {
+}
+
+.about__container {
+	padding: 110px 70px 100px;
+}
+.about__container-info {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+}
+.about__info {
+	width: 600px;
+}
+.about__heading {
+}
+
+.about__image {
+	background-image: url('../../../images/foto.jpg');
+	background-size: cover;
+	min-width: 230px;
+    height: 350px;
+	border-radius: 10px;
+    margin-left: 30px;
+}
+
+.about__title {
+	margin: 0;
+	font-weight: var(--font-weight-400);
+	font-size: var(--font-size-50);
+	line-height: var(--line-height-58);
+	letter-spacing: var(--letter-spacing-default);
+}
+
+.about__subtitle {
+	margin: 18px 0 26px;
+	font-weight: var(--font-weight-500);
+	font-size: var(--font-size-18);
+	line-height: var(--line-height-20);
+}
+
+.about__description {
+	margin: 0 0 100px;
+	font-weight: var(--font-weight-400);
+	font-size: var(--font-size-14);
+	line-height: var(--line-height-22);
+}
+
+.about__link {
+	font-weight: var(--font-weight-500);
+	font-size: var(--font-size-14);
+	line-height: var(--line-height-17);
+}
+
+.about__link:hover {
+	cursor: pointer;
+	opacity: 0.8;
+	transition: 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+	.about__container {
+		padding: 90px 50px;
+	}
+	.about__info {
+		width: 364px;
+	}
+	.about__title {
+		font-size: var(--font-size-40);
+		line-height: var(--line-height-40);
+	}
+    .about__subtitle {
+        margin: 16px 0 20px;
+        font-size: var(--font-size-12);
+        line-height: var(--line-height-18);
+    }
+    .about__description {
+        margin: 0 0 87px;
+        font-size: var(--font-size-12);
+        line-height: var(--line-height-18);
+    }
+}
+@media screen and (max-width: 500px) {
+	
+    .about__container-info {
+        flex-direction: column;
+    }
+	.about__info {
+		width: 100%;
+	}
+	.about__title {
+        margin-top: 40px;
+		font-size: var(--font-size-30);
+		line-height: var(--line-height-36);
+	}
+    .about__subtitle {
+        margin: 20px 0 20px;
+        font-size: var(--font-size-11);
+        line-height: var(--line-height-16);
+    }
+    .about__description {
+        margin: 0 0 40px;
+        font-size: var(--font-size-11);
+        line-height: var(--line-height-16);
+    }
+    .about__image  {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .about__container {
+		padding: 60px 14px 70px;
+	}
+}
